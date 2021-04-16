@@ -14,7 +14,7 @@ allprojects {
             url "https://mlrepo.djl.ai/maven/"
         }
         maven {
-            url "https://oss.sonatype.org/content/repositories/aidjl-1111/"
+            url "https://oss.sonatype.org/content/repositories/aidjl-1112/"
         }
         jcenter()
         maven {
