@@ -122,8 +122,8 @@ public class ServingTranslatorFactory implements TranslatorFactory<Input, Output
                     return translator;
                 }
             }
-        } catch (IOException e) {
-            logger.debug("Failed to find Translator", e);
+        } catch (IOException ignored) {
+            //logger.debug("Failed to find Translator", e);
         }
         return null;
     }

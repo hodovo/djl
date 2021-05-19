@@ -15,20 +15,30 @@ package ai.djl.util.cuda;
 import ai.djl.Device;
 import ai.djl.engine.EngineException;
 import com.sun.jna.Native;
-import java.io.File;
-import java.lang.management.MemoryUsage;
-import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** A class containing CUDA utility methods. */
+import java.io.File;
+import java.lang.management.MemoryUsage;
+import java.util.regex.Pattern;
+
+/**
+ * A class containing CUDA utility methods.
+ */
 public final class CudaUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(CudaUtils.class);
 
     private static final CudaLibrary LIB = loadLibrary();
 
-    private CudaUtils() {}
+    private CudaUtils() {
+    }
+
+    private static int cudaVersionOverride = 0;
+
+    public static void setCudaVersionOverride(int cudaVersionOverride) {
+        CudaUtils.cudaVersionOverride = cudaVersionOverride;
+    }
 
     /**
      * Gets whether CUDA runtime library is in the system.
@@ -79,7 +89,13 @@ public final class CudaUtils {
             throw new IllegalStateException("No cuda library is loaded.");
         }
         int[] version = new int[1];
-        int result = LIB.cudaRuntimeGetVersion(version);
+        int result;
+        if (cudaVersionOverride > 0) {
+            version[0] = cudaVersionOverride;
+            result = 0;
+        } else {
+            result = LIB.cudaRuntimeGetVersion(version);
+        }
         checkCall(result);
         return version[0];
     }
@@ -195,4 +211,5 @@ public final class CudaUtils {
                     "CUDA API call failed: " + LIB.cudaGetErrorString(ret) + " (" + ret + ')');
         }
     }
+
 }
