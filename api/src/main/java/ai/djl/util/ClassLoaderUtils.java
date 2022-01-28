@@ -86,7 +86,7 @@ public final class ClassLoaderUtils {
                 }
             }
         } catch (IOException ignored) {
-            //logger.debug("Failed to find Translator", e);
+            // logger.debug("Failed to find Translator", e);
         }
         return null;
     }
